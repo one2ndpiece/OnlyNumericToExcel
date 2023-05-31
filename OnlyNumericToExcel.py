@@ -4,7 +4,7 @@ import pandas as pd
 def extract_numbers(file_name):
     data = []
 
-    with open(file_name, 'r', encoding='utf-8', errors='ignore') as file:
+    with open("sample2.txt", 'r', encoding='utf-8', errors='ignore') as file:
         for line in file:
             # Finding all numbers including negative numbers
             numbers = re.findall(r'-?\d+\.?\d*', line)
@@ -22,4 +22,4 @@ data = extract_numbers(file_name)
 df = pd.DataFrame(data)
 
 # Writing the DataFrame to an Excel file
-df.to_excel('output.xlsx', index=False, header=False)
+df.to_excel('output2.xlsx', index=False, header=False)
