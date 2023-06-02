@@ -6,22 +6,23 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-# Then, in your functions or any part of the code you suspect is causing the issue:
-logging.debug('Starting to run this part of the code...')
-
-
+logging.debug('Starting to run the script...')
 
 def extract_numbers(file):
     data = []
 
     try:
         for line in file:
-            # Converting bytes to string
+            logging.debug('Decoding line...')
             line = line.decode('utf-8')
-            # Finding all numbers including negative numbers
+
+            logging.debug('Finding numbers in line...')
             numbers = re.findall(r'-?\d+\.?\d*', line)
-            # Converting all found strings to floats or integers
+
+            logging.debug('Converting numbers...')
             numbers = [float(num) if '.' in num else int(num) for num in numbers]
+
+            logging.debug('Appending numbers to data...')
             data.append(numbers)
     except Exception as e:
         logging.error(f"Exception occurred in extract_numbers: {e}")
@@ -29,7 +30,8 @@ def extract_numbers(file):
 
     return data
 
-# Streamlit code
+logging.debug('Starting Streamlit code...')
+
 st.title('Number Extractor')
 
 uploaded_file = st.file_uploader("Choose a TXT file", type="txt")
@@ -38,8 +40,13 @@ if uploaded_file is not None:
     st.write(file_details)
 
     try:
+        logging.debug('Calling extract_numbers...')
         data = extract_numbers(uploaded_file)
+
+        logging.debug('Creating DataFrame...')
         df = pd.DataFrame(data)
+
+        logging.debug('Displaying DataFrame...')
         st.dataframe(df)
     except Exception as e:
         logging.error(f"Exception occurred when processing uploaded file: {e}")
@@ -50,11 +57,16 @@ if uploaded_file is not None:
         excel_file = st.text_input('Enter Excel file name', 'output.xlsx')
         if output_path and excel_file:  # only proceed if both output_path and excel_file are not empty
             try:
+                logging.debug('Joining paths...')
                 full_path = os.path.join(output_path, excel_file)
+
+                logging.debug('Saving DataFrame to Excel...')
                 df.to_excel(full_path, index=False, header=False)
+
+                logging.debug('Excel file saved.')
                 st.success(f'Excel file saved as {full_path}')
             except Exception as e:
                 logging.error(f"Exception occurred when saving DataFrame to Excel: {e}")
                 st.error("An error occurred when saving the DataFrame to Excel. Please check the log for more details.")
-# Your code here
-logging.debug('Finished running this part of the code.')
+
+logging.debug('Finished running the script.')
