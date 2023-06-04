@@ -18,6 +18,3 @@
 意外と便利だった・・・
 # OnlyNumericToExcel
 Output Numeric value in text to Excel
-
-# streamlitの発見  
-ブラウザを立ち上げてないとCtrl+Cをしてもコマンド上でストップのメッセージが出ない;;  
