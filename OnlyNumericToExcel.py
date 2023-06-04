@@ -52,21 +52,21 @@ if uploaded_file is not None:
         logging.error(f"Exception occurred when processing uploaded file: {e}")
         st.error("An error occurred when processing the uploaded file. Please check the log for more details.")
 
-    if st.button('Save to Excel'):
-        output_path = st.text_input('Enter output path', '')
-        excel_file = st.text_input('Enter Excel file name', 'output.xlsx')
-        if output_path and excel_file:  # only proceed if both output_path and excel_file are not empty
-            try:
-                logging.debug('Joining paths...')
-                full_path = os.path.join(output_path, excel_file)
+    output_path = st.text_input('Enter output path', '')
+    excel_file = st.text_input('Enter Excel file name', 'output.xlsx')
+    
+    if st.button('Save to Excel') and output_path and excel_file:
+        try:
+            logging.debug('Joining paths...')
+            full_path = os.path.join(output_path, excel_file)
 
-                logging.debug('Saving DataFrame to Excel...')
-                df.to_excel(full_path, index=False, header=False)
+            logging.debug('Saving DataFrame to Excel...')
+            df.to_excel(full_path, index=False, header=False)
 
-                logging.debug('Excel file saved.')
-                st.success(f'Excel file saved as {full_path}')
-            except Exception as e:
-                logging.error(f"Exception occurred when saving DataFrame to Excel: {e}")
-                st.error("An error occurred when saving the DataFrame to Excel. Please check the log for more details.")
+            logging.debug('Excel file saved.')
+            st.success(f'Excel file saved as {full_path}')
+        except Exception as e:
+            logging.error(f"Exception occurred when saving DataFrame to Excel: {e}")
+            st.error("An error occurred when saving the DataFrame to Excel. Please check the log for more details.")
 
 logging.debug('Finished running the script.')
